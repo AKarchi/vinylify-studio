@@ -1,0 +1,371 @@
+/* ========================================
+   VINYLIFY STUDIO — Custom Styles
+   ======================================== */
+
+/* ---- Base ---- */
+body {
+  font-family: 'Outfit', sans-serif;
+  user-select: none;
+}
+
+.font-display {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* ---- Vinyl Record Groove Texture ---- */
+.vinyl-grooves {
+  background: radial-gradient(circle, 
+    #1f2937 0%, 
+    #0b0f19 18%, 
+    #1f2937 19%, 
+    #0b0f19 32%, 
+    #374151 33%, 
+    #0b0f19 48%, 
+    #1f2937 49%, 
+    #0b0f19 68%, 
+    #374151 69%, 
+    #030712 100%);
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(255, 255, 255, 0.08);
+}
+
+/* ---- Glossy Sheen Overlay ---- */
+.vinyl-shine {
+  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 42%, rgba(255,255,255,0) 58%, rgba(255,255,255,0.12) 100%);
+}
+
+/* ---- Tonearm Pivot Mechanics ---- */
+.tonearm-container {
+  transform-origin: 22px 22px;
+  transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tonearm-playing {
+  transform: rotate(27deg);
+}
+
+.tonearm-idle {
+  transform: rotate(0deg);
+}
+
+/* ---- Warning Note Card Glow ---- */
+@keyframes warn-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(245, 158, 11, 0.10); }
+  50% { box-shadow: 0 0 24px rgba(245, 158, 11, 0.25); }
+}
+.warning-note {
+  animation: warn-pulse 2.8s ease-in-out infinite;
+}
+
+/* ---- Range Slider Styling ---- */
+input[type=range] {
+  accent-color: #f59e0b;
+}
+
+/* ---- Vertical Pitch Slider ---- */
+input[type=range].pitch-slider {
+  appearance: slider-vertical;
+  writing-mode: bt-lr;
+  height: 80px;
+  width: 4px;
+  background: #1e293b;
+  border-radius: 4px;
+}
+input[type=range].pitch-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #f59e0b;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+}
+input[type=range].pitch-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #f59e0b;
+  cursor: pointer;
+  border: none;
+}
+
+/* ---- Custom Scrollbar ---- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ========================================
+   VINYL STYLE CUSTOMIZER BUTTONS
+   ======================================== */
+
+/* ---- Vinyl Color Buttons ---- */
+.vinyl-color-btn {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.vinyl-color-btn:hover {
+  transform: scale(1.06);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.vinyl-color-btn.active {
+  border-color: #f59e0b;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3), inset 0 0 20px rgba(245, 158, 11, 0.05);
+  transform: scale(1.04);
+}
+
+.vinyl-color-btn .color-swatch {
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 -4px 8px rgba(0,0,0,0.4), inset 0 4px 8px rgba(255,255,255,0.1);
+}
+
+.vinyl-color-btn .check-mark {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #f59e0b;
+  color: #0f172a;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+}
+
+.vinyl-color-btn.active .check-mark {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.vinyl-color-btn .label-text {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 7px;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.4);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.vinyl-color-btn:hover .label-text,
+.vinyl-color-btn.active .label-text {
+  opacity: 1;
+  color: rgba(255,255,255,0.7);
+}
+
+.vinyl-color-btn .groove-preview {
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.03);
+  pointer-events: none;
+}
+
+.vinyl-color-btn .groove-preview:nth-child(2) {
+  inset: 24%;
+}
+
+.vinyl-color-btn .groove-preview:nth-child(3) {
+  inset: 36%;
+}
+
+.vinyl-color-btn .ring-preview {
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.04);
+  pointer-events: none;
+}
+
+/* ---- Label Gradient Buttons ---- */
+.label-gradient-btn {
+  position: relative;
+  height: 48px;
+  border-radius: 12px;
+  border: 2px solid rgba(255,255,255,0.08);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.label-gradient-btn:hover {
+  transform: scale(1.04);
+  border-color: rgba(255,255,255,0.25);
+}
+
+.label-gradient-btn.active {
+  border-color: #f59e0b;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.25);
+  transform: scale(1.04);
+}
+
+.label-gradient-btn .check-mark {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #f59e0b;
+  color: #0f172a;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.4);
+}
+
+.label-gradient-btn.active .check-mark {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ========================================
+   STORAGE INDICATOR TOOLTIP - BELOW
+   ======================================== */
+
+/* The tooltip container */
+#storage-indicator {
+  position: relative;
+  cursor: help;
+}
+
+/* Tooltip visibility using group hover */
+#storage-indicator .group-hover\:opacity-100 {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+#storage-indicator:hover .group-hover\:opacity-100,
+#storage-indicator:focus .group-hover\:opacity-100 {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* For mobile click support */
+#storage-indicator .tooltip-visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateX(-50%) translateY(0) !important;
+}
+
+/* Hover effect on the indicator */
+#storage-indicator:hover {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.4);
+  transition: all 0.2s ease;
+}
+
+/* Tooltip arrow - pointing UP (since tooltip is below) */
+#storage-indicator .tooltip-arrow {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: rgba(15, 23, 42, 0.95);
+  border-left: 1px solid rgba(51, 65, 85, 0.6);
+  border-top: 1px solid rgba(51, 65, 85, 0.6);
+  border-radius: 2px 0 0 0;
+}
+
+/* ========================================
+   LYRICS PANEL STYLES
+   ======================================== */
+
+#lyrics-panel {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#lyrics-panel:not(.hidden) {
+  display: flex !important;
+}
+
+/* Lyrics line highlighting */
+.lyrics-line {
+  padding: 4px 12px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #94a3b8;
+}
+
+.lyrics-line.active {
+  color: #f43f5e;
+  background: rgba(244, 63, 94, 0.08);
+  font-weight: 600;
+  transform: scale(1.02);
+}
+
+.lyrics-line.active::before {
+  content: '♪ ';
+  color: #f43f5e;
+  font-weight: 400;
+}
+
+/* Scrollbar for lyrics panel */
+#lyrics-content::-webkit-scrollbar {
+  width: 4px;
+}
+#lyrics-content::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 4px;
+}
+#lyrics-content::-webkit-scrollbar-thumb {
+  background: #f43f5e;
+  border-radius: 4px;
+}
+#lyrics-content::-webkit-scrollbar-thumb:hover {
+  background: #e11d48;
+}

@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>Vinylify Studio - A Personal Audio Engine with an Analog Soul</title>
+  
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Space Grotesk"', 'sans-serif'],
+            body: ['"Outfit"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            vinyl: {
+              dark: '#0a0d14',
+              groove: '#111827',
+              center: '#ef4444',
+              tonearm: '#9ca3af',
+              accent: '#f59e0b'
+            }
+          },
+          animation: {
+            'spin-slow': 'spin 3s linear infinite',
+            'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="h-full flex flex-col bg-slate-950 text-slate-100 selection:bg-amber-500 selection:text-slate-950">
+  
+  <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur-md sticky top-0 z-40 px-4 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-orange-500 to-rose-500 flex items-center justify-center shadow-lg shadow-amber-500/20 text-slate-950 font-black text-xl">
+        <i class="fa-solid fa-compact-disc animate-spin-slow"></i>
+      </div>
+      <div>
+        <h1 class="font-display font-bold text-xl tracking-tight text-white flex items-center gap-2">
+          Vinylify <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 font-mono tracking-widest font-semibold">STUDIO</span>
+        </h1>
+        <p class="text-xs text-slate-400">A Personal Audio Engine with an Analog Soul</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <!-- ===== INDEXEDDB STORAGE INDICATOR WITH TOOLTIP BELOW ===== -->
+<div id="storage-indicator"
+     class="relative hidden xl:flex items-center gap-2 text-xs bg-emerald-950/60 text-emerald-400 border border-emerald-800/40 px-3 py-1.5 rounded-full cursor-help transition hover:bg-emerald-950/80 hover:border-emerald-700/60 group"
+     aria-label="Local Storage">
+
+    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+    <i class="fa-solid fa-hard-drive text-emerald-400"></i>
+    <span>Local Storage</span>
+
+    <!-- Tooltip - positioned BELOW -->
+    <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-4 py-3.5
+                bg-slate-900/95 border border-slate-700/60 rounded-xl
+                shadow-2xl text-slate-300 text-[11px] w-80
+                pointer-events-none opacity-0 invisible
+                group-hover:opacity-100 group-hover:visible
+                transition-all duration-200 z-50 backdrop-blur-xl"
+         style="backdrop-filter: blur(16px);">
+
+        <div class="space-y-3">
+
+            <!-- Header -->
+            <p class="font-semibold text-emerald-400 text-xs flex items-center gap-2">
+                <i class="fa-solid fa-database"></i>
+                Your library stays local
+            </p>
+
+            <!-- Main explanation -->
+            <p class="text-slate-400 leading-relaxed text-[11px]">
+                Your playlists and track information are
+                <span class="text-emerald-300 font-mono text-[10px] bg-emerald-950/40 px-1.5 py-0.5 rounded">
+                    stored in your browser
+                </span>.
+                Uploaded MP3s
+                <span class="text-emerald-300 font-mono text-[10px] bg-emerald-950/40 px-1.5 py-0.5 rounded">
+                    stay on your device
+                </span>,
+                while YouTube tracks save only their
+                <span class="text-emerald-300 font-mono text-[10px] bg-emerald-950/40 px-1.5 py-0.5 rounded">
+                    link and metadata
+                </span>.
+                YouTube audio/video is streamed when played.
+            </p>
+
+            <!-- Privacy / backup notice -->
+            <div class="flex items-start gap-2 bg-amber-500/5 border border-amber-500/10 rounded-lg px-2.5 py-2">
+                <i class="fa-regular fa-circle-exclamation text-amber-200 mt-0.5 text-[10px]"></i>
+
+                <p class="text-amber-300 text-[10px] leading-relaxed">
+                    Clearing your browser's site data may remove your local library.
+                    <span class="text-amber-200 font-medium">
+                        Your data stays on your device.
+                    </span>
+                    Export your library as JSON for backup or transfer.
+                </p>
+            </div>
+
+            <!-- Storage status -->
+            <div class="flex items-center gap-3 pt-2 text-[10px] text-slate-500 border-t border-slate-700/50">
+
+                <span class="flex items-center gap-1.5 whitespace-nowrap">
+                    <i class="fa-regular fa-floppy-disk text-emerald-300"></i>
+                    Auto-saved
+                </span>
+
+                <span class="w-px h-3 bg-slate-700/50"></span>
+
+                <span class="flex items-center gap-1.5 whitespace-nowrap">
+                    <i class="fa-regular fa-lock text-emerald-300"></i>
+                    Private
+                </span>
+
+                <span class="w-px h-3 bg-slate-700/50"></span>
+
+                <span id="storage-usage"
+                      class="flex items-center gap-1.5 text-slate-500 whitespace-nowrap">
+                    <i class="fa-regular fa-hard-drive text-emerald-300"></i>
+                    <span id="storage-space-text">Checking...</span>
+                </span>
+
+            </div>
+        </div>
+
+        <!-- Tooltip arrow -->
+        <div class="absolute -top-1.5 left-1/2 -translate-x-1/2
+                    w-3 h-3 bg-slate-900/95
+                    border-l border-t border-slate-700/60 rotate-45">
+        </div>
+
+    </div>
+</div>
+
+      <button id="shortcuts-btn" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs border border-slate-700 transition" aria-label="Keyboard Shortcuts">
+        <i class="fa-solid fa-keyboard"></i>
+      </button>
+
+      <button id="sleep-timer-btn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition flex items-center gap-2" aria-label="Sleep Timer">
+        <i class="fa-solid fa-moon text-indigo-400"></i>
+        <span id="sleep-timer-label" class="hidden md:inline">Sleep Timer</span>
+      </button>
+
+      <button id="export-btn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition flex items-center gap-1.5" aria-label="Export Playlist">
+        <i class="fa-solid fa-download"></i>
+        <span class="hidden md:inline">Export</span>
+      </button>
+
+      <button id="import-btn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition flex items-center gap-1.5" aria-label="Import Playlist">
+        <i class="fa-solid fa-upload"></i>
+        <span class="hidden md:inline">Import</span>
+      </button>
+      <input type="file" id="import-file-input" accept=".json" class="hidden" />
+
+      <button id="theme-customizer-btn" class="px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-medium transition flex items-center gap-1.5" aria-label="Customize Theme">
+        <i class="fa-solid fa-palette"></i>
+        <span class="hidden sm:inline">Vinyl Style</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+    <!-- LEFT PANEL -->
+    <section class="lg:col-span-5 xl:col-span-5 flex flex-col bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 md:p-5 shadow-xl backdrop-blur-sm relative">
+
+      <!-- WARNING NOTE -->
+      <div class="warning-note mb-4 rounded-xl border border-amber-500/40 bg-amber-500/10 backdrop-blur-sm px-4 py-3 flex items-start gap-3">
+        <div class="shrink-0 mt-0.5 text-amber-400 text-lg">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <div class="text-xs space-y-0.5">
+          <p class="font-semibold text-amber-300/90">YouTube Track Availability Notice</p>
+          <p class="text-amber-200/70 leading-relaxed">
+            Some YouTube links may not play due to:
+          </p>
+          <ul class="text-amber-200/70 leading-relaxed list-disc list-inside space-y-0.5 ml-1">
+            <li><strong class="text-amber-300">Copyright restrictions</strong> — the video may be blocked in your region</li>
+            <li><strong class="text-amber-300">Embedding disabled</strong> — the content owner has disabled playback on external sites</li>
+            <li><strong class="text-amber-300">Private or deleted</strong> — the video is no longer publicly available</li>
+          </ul>
+          <div class="flex flex-wrap items-center gap-3 mt-1.5 text-[11px] text-amber-300">
+            <span><i class="fa-solid fa-circle-check text-emerald-300 mr-1"></i>MP3 files always work — no restrictions</span>
+            <span><i class="fa-solid fa-circle-exclamation text-rose-300 mr-1"></i>Some YouTube videos may not be available for playback due to YouTube's restrictions.</span>
+          </div>
+          <p class="text-[10px] text-amber-300 mt-1 italic">
+            <i class="fa-regular fa-copyright mr-1"></i>Vinylify is a personal media player — please respect copyright laws
+          </p>
+        </div>
+      </div>
+      
+      <!-- Playlist Navigation Tabs -->
+      <div class="flex items-center justify-between gap-2 border-b border-slate-800 pb-3 mb-4">
+        <div id="playlist-tabs-container" class="flex items-center gap-2 overflow-x-auto pb-1 max-w-[calc(100%-48px)] no-scrollbar"></div>
+        <button id="add-playlist-btn" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-300 flex items-center justify-center transition border border-slate-700 shrink-0" aria-label="Add New Playlist">
+          <i class="fa-solid fa-plus text-xs"></i>
+        </button>
+      </div>
+
+      <!-- Active Playlist Controls -->
+      <div class="flex items-center justify-between mb-4 gap-2">
+        <div class="flex items-center gap-2 group min-w-0">
+          <h2 id="current-playlist-title" class="font-display font-bold text-lg md:text-xl text-white truncate">Playlist 1</h2>
+          <button id="rename-playlist-btn" class="text-slate-400 hover:text-amber-400 text-xs p-1 transition shrink-0" aria-label="Rename Playlist">
+            <i class="fa-solid fa-pen"></i>
+          </button>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <button id="open-add-song-modal" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-amber-500/10" aria-label="Add Track">
+            <i class="fa-solid fa-plus"></i><span>Add Track</span>
+          </button>
+          <button id="delete-playlist-btn" class="text-slate-400 hover:text-rose-400 p-1.5 rounded-lg hover:bg-slate-800 transition text-xs" aria-label="Delete Playlist">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="flex-1 flex flex-col min-h-[360px] max-h-[500px] lg:max-h-[560px] bg-slate-950/70 border border-slate-800/80 rounded-xl p-2 md:p-3 overflow-hidden">
+        <div id="songs-list" class="flex-1 overflow-y-auto space-y-2 pr-1"></div>
+        <!-- Empty Playlist Placeholder -->
+        <div id="empty-songs-state" class="hidden flex-1 flex flex-col items-center justify-center text-center p-6 text-slate-400">
+          <div class="w-14 h-14 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center mb-3 text-slate-600">
+            <i class="fa-solid fa-file-audio text-xl"></i>
+          </div>
+          <p class="font-display font-medium text-slate-400 mb-1 text-sm">No audio tracks added</p>
+          <p class="text-xs text-slate-400 max-w-xs mb-4">Upload local .mp3 files or add YouTube links.<br>Remember to include the <span class="text-amber-400">artist name</span> for lyrics!</p>
+          <button id="empty-add-song-btn" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-semibold border border-amber-500/20 transition flex items-center gap-2" aria-label="Add Track">
+            <i class="fa-solid fa-plus"></i><span>Add Track</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-400 px-1">
+        <span id="songs-count-label">0 Songs</span>
+        <span class="text-[11px] font-mono"><i class="fa-solid fa-shield-halved text-amber-500/80 mr-1"></i>100% Client-Side Privacy</span>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: Turntable -->
+    <section class="lg:col-span-7 xl:col-span-7 flex flex-col bg-slate-900/80 border border-slate-800/80 rounded-2xl p-4 md:p-6 shadow-2xl backdrop-blur-md relative overflow-hidden">
+      
+      <!-- Turntable Deck Bar Controls -->
+<div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800/80">
+  <div class="flex items-center gap-2">
+    <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+    <span class="font-mono text-xs text-slate-300 tracking-wider uppercase font-semibold">MODEL VT-1974 DECK</span>
+  </div>
+
+  <div class="flex items-center gap-2">
+    <!-- RPM Buttons -->
+    <div class="flex bg-slate-950 p-1 rounded-lg border border-slate-800 gap-1 text-[11px] font-mono">
+      <button data-rpm="33" class="rpm-btn px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-bold">33⅓</button>
+      <button data-rpm="45" class="rpm-btn px-2 py-0.5 rounded hover:bg-slate-800 text-slate-400">45</button>
+      <button data-rpm="78" class="rpm-btn px-2 py-0.5 rounded hover:bg-slate-800 text-slate-400">78</button>
+    </div>
+
+    <!-- Lo-Fi Filter -->
+    <button id="lofi-filter-btn" class="px-2.5 py-1 rounded-lg text-[11px] font-mono border border-slate-700 bg-slate-800 text-slate-400 hover:text-amber-400 transition flex items-center gap-1.5" aria-label="LO-FI OFF Filter">
+      <i class="fa-solid fa-sliders text-xs"></i>
+      <span id="lofi-status-text">LO-FI: OFF</span>
+    </button>
+
+    <!-- ===== NEW: LYRICS BUTTON ===== -->
+    <button id="lyrics-toggle-btn" class="px-2.5 py-1 rounded-lg text-[11px] font-mono border border-slate-700 bg-slate-800 text-slate-400 hover:text-rose-400 transition flex items-center gap-1.5" aria-label="Toggle Lyrics Panel">
+      <i class="fa-solid fa-music text-xs"></i>
+      <span id="lyrics-status-text">LYRICS</span>
+    </button>
+  </div>
+</div>
+
+      <!-- Turntable Platter Deck -->
+      <div class="relative w-full aspect-square max-w-[420px] mx-auto bg-slate-950 border border-slate-800/80 rounded-2xl p-4 shadow-2xl flex items-center justify-center my-1 group">
+        
+        <div class="absolute inset-2 border border-slate-800/50 rounded-xl pointer-events-none"></div>
+        <div class="absolute top-4 left-4 text-[9px] font-mono text-slate-200 tracking-widest">PITCH ADJUST ±10%</div>
+
+        <!-- Pitch Slider -->
+        <div class="absolute left-3 bottom-4 flex flex-col items-center gap-1 bg-slate-900/95 border border-slate-700/80 rounded-xl p-2 shadow-xl z-10" style="backdrop-filter: blur(8px);">
+          <span class="text-[8px] font-mono text-slate-400 font-bold tracking-wider">PITCH</span>
+          <input type="range" id="pitch-slider" min="0.85" max="1.15" step="0.01" value="1.0" 
+                 class="pitch-slider cursor-pointer" aria-label="Pitch adjustment">
+          <span id="pitch-value-label" class="text-[9px] font-mono text-amber-400 font-bold">1.00x</span>
+        </div>
+
+        <!-- SPINNING VINYL RECORD -->
+        <div id="vinyl-record" class="relative w-[82%] h-[82%] rounded-full vinyl-grooves flex items-center justify-center transition-transform duration-700 shadow-2xl cursor-pointer">
+          <div class="absolute inset-0 rounded-full vinyl-shine pointer-events-none"></div>
+
+          <div class="w-[44%] h-[44%] rounded-full bg-slate-900 border-4 border-slate-950 flex items-center justify-center relative shadow-lg overflow-hidden">
+            <div id="vinyl-center-label" class="absolute inset-0 bg-gradient-to-tr from-amber-600 via-orange-600 to-rose-600 flex flex-col items-center justify-center text-center p-2 text-slate-950">
+              <span id="vinyl-label-title" class="font-display font-bold text-[10px] sm:text-xs leading-tight line-clamp-2 uppercase tracking-wider">No Track Selected</span>
+              <span id="vinyl-label-artist" class="text-[8px] font-mono opacity-80 truncate max-w-full">Vinylify Studio</span>
+            </div>
+            <div class="w-4 h-4 rounded-full bg-slate-950 border-2 border-slate-700 z-10 shadow-inner"></div>
+          </div>
+        </div>
+
+        <!-- TONEARM -->
+        <div class="absolute top-5 right-5 w-28 h-56 pointer-events-none z-20">
+          <div class="absolute bottom-6 right-1 w-3 h-6 bg-slate-800 border border-slate-700 rounded-sm flex items-center justify-center shadow-md">
+            <div class="w-1 h-3 bg-slate-600 rounded-full"></div>
+          </div>
+          <div class="absolute top-0 right-0 w-11 h-11 rounded-full bg-gradient-to-b from-slate-600 via-slate-800 to-slate-900 border-2 border-slate-500 shadow-2xl flex items-center justify-center z-30">
+            <div class="w-5 h-5 rounded-full bg-slate-950 border border-slate-600 flex items-center justify-center shadow-inner">
+              <div class="w-2 h-2 rounded-full bg-slate-400"></div>
+            </div>
+          </div>
+          <div id="tonearm" class="tonearm-container tonearm-idle absolute top-0 right-0 w-full h-full" style="transform-origin: calc(100% - 22px) 22px;">
+            <div class="absolute top-5 right-[20px] w-1.5 h-36 bg-gradient-to-r from-slate-400 via-slate-100 to-slate-500 rounded-full shadow-lg origin-top transform -rotate-[14deg]">
+              <div class="absolute -bottom-7 -left-1 w-3.5 h-8 bg-slate-800 border border-slate-600 rounded-xs shadow-xl flex flex-col items-center justify-between py-1 transform rotate-[10deg]">
+                <div class="w-2 h-1 bg-slate-400 rounded-xs"></div>
+                <div class="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse shadow-[0_0_8px_#f59e0b]"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <canvas id="visualizer-canvas" class="absolute bottom-3 right-4 left-16 h-8 pointer-events-none opacity-60"></canvas>
+      </div>
+
+      <!-- ===== LYRICS PANEL ===== -->
+<div id="lyrics-panel" class="hidden absolute inset-0 bg-slate-950/95 backdrop-blur-xl z-30 rounded-2xl p-4 flex flex-col border border-rose-500/20 shadow-2xl" style="animation: fadeIn 0.3s ease;">
+  
+  <!-- Lyrics Panel Header -->
+  <div class="flex items-center justify-between mb-3 shrink-0">
+    <div class="flex items-center gap-2">
+      <i class="fa-solid fa-music text-rose-400"></i>
+      <span class="font-display font-bold text-sm text-white">Lyrics</span>
+      <span id="lyrics-song-title" class="text-xs text-slate-400 truncate max-w-[150px]">No song selected</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <button id="lyrics-auto-search" class="px-2 py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-[10px] font-medium transition flex items-center gap-1.5 border border-rose-500/20">
+        <i class="fa-solid fa-magnifying-glass text-[10px]"></i>
+        <span>Search</span>
+      </button>
+      <button id="lyrics-close-btn" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition" aria-label="Close Lyrics Panel">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Lyrics Source / Status -->
+  <div class="flex items-center gap-2 text-[9px] font-mono text-slate-500 mb-2 shrink-0">
+    <span id="lyrics-source-status">📝 No lyrics loaded</span>
+    <span class="w-px h-3 bg-slate-700/50"></span>
+    <span id="lyrics-sync-status" class="text-slate-600">⏸️ Not playing</span>
+  </div>
+
+  <!-- Lyrics Content (Scrollable) -->
+  <div id="lyrics-content" class="flex-1 overflow-y-auto py-2 space-y-1.5 pr-2 text-center">
+    <div class="text-slate-500 text-sm italic flex flex-col items-center justify-center h-full">
+      <i class="fa-regular fa-music text-3xl text-slate-700 mb-3"></i>
+      <p>No lyrics available</p>
+      <p class="text-xs text-slate-600 mt-1">Click "Search" to find lyrics or paste them below</p>
+    </div>
+  </div>
+
+  <!-- Lyrics Input / Manual Add -->
+  <div class="shrink-0 mt-3 pt-2 border-t border-slate-700/50">
+    <div class="flex items-center gap-2">
+      <input type="text" id="lyrics-manual-input" placeholder="Paste lyrics here or search..." class="flex-1 bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-rose-500/50">
+      <button id="lyrics-manual-add" class="px-3 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-400 text-xs font-medium transition border border-rose-500/20 whitespace-nowrap">
+        Add
+      </button>
+    </div>
+    <div class="flex items-center gap-3 mt-1.5 text-[9px] text-slate-500">
+      <label class="flex items-center gap-1.5 cursor-pointer hover:text-slate-300 transition">
+        <i class="fa-regular fa-file-lines"></i>
+        <span>Upload .lrc (synced)</span>
+        <input type="file" id="lrc-file-input" accept=".lrc" class="hidden" />
+      </label>
+      <span class="w-px h-3 bg-slate-700/50"></span>
+      <button id="lyrics-clear-btn" class="text-slate-500 hover:text-rose-400 transition text-[9px]">Clear</button>
+    </div>
+  </div>
+</div>
+
+      <!-- Sound Equalizer & Vinyl Crackle Controls -->
+      <div class="mt-3 bg-slate-950/70 border border-slate-800/80 rounded-xl p-3 grid grid-cols-4 gap-2 text-center text-xs">
+        <div>
+          <label class="block text-[10px] font-mono text-slate-400 mb-1">BASS</label>
+          <input type="range" id="eq-bass" min="-12" max="12" value="0" step="1" class="w-full h-1 bg-slate-800 rounded accent-amber-500 cursor-pointer" aria-label="Bass equalizer">
+          <span id="eq-bass-val" class="text-[9px] font-mono text-slate-400">0dB</span>
+        </div>
+        <div>
+          <label class="block text-[10px] font-mono text-slate-400 mb-1">MID</label>
+          <input type="range" id="eq-mid" min="-12" max="12" value="0" step="1" class="w-full h-1 bg-slate-800 rounded accent-amber-500 cursor-pointer" aria-label="Mid equalizer">
+          <span id="eq-mid-val" class="text-[9px] font-mono text-slate-400">0dB</span>
+        </div>
+        <div>
+          <label class="block text-[10px] font-mono text-slate-400 mb-1">TREBLE</label>
+          <input type="range" id="eq-treble" min="-12" max="12" value="0" step="1" class="w-full h-1 bg-slate-800 rounded accent-amber-500 cursor-pointer" aria-label="Treble equalizer">
+          <span id="eq-treble-val" class="text-[9px] font-mono text-slate-400">0dB</span>
+        </div>
+        <div>
+          <label class="block text-[10px] font-mono text-amber-400 mb-1"><i class="fa-solid fa-record-vinyl mr-1"></i>CRACKLE</label>
+          <input type="range" id="crackle-volume" min="0" max="0.3" value="0.05" step="0.01" class="w-full h-1 bg-slate-800 rounded accent-amber-500 cursor-pointer" aria-label="Vinyl crackle volume">
+          <span id="crackle-val" class="text-[9px] font-mono text-slate-400">Warm</span>
+        </div>
+      </div>
+
+      <!-- Playing Song Meta -->
+      <div class="mt-3 text-center px-2">
+        <h3 id="player-song-title" class="font-display font-bold text-base md:text-lg text-white truncate">Select a song to start playing</h3>
+        <p id="player-song-artist" class="text-xs text-amber-400 font-medium truncate mt-0.5">Ready for turntable playback</p>
+      </div>
+
+      <!-- Seek Bar -->
+      <div class="mt-3 px-1">
+        <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-1">
+          <span id="current-time">0:00</span>
+          <span id="total-duration">0:00</span>
+        </div>
+        <input type="range" id="seek-bar" min="0" max="100" value="0" step="0.1" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500 hover:accent-amber-400" aria-label="Song Position">
+      </div>
+
+      <!-- Transport Buttons -->
+      <div class="mt-4 flex items-center justify-between gap-4 px-1">
+        <div class="flex items-center gap-2 w-28">
+          <button id="mute-btn" class="text-slate-400 hover:text-white text-xs p-1" aria-label="Mute volume">
+            <i id="mute-icon" class="fa-solid fa-volume-high"></i>
+          </button>
+          <input type="range" id="volume-bar" min="0" max="1" step="0.05" value="0.8" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-slate-400" aria-label="Volume Control">
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button id="prev-btn" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center transition border border-slate-700 active:scale-95" aria-label="Previous track">
+            <i class="fa-solid fa-backward-step"></i>
+          </button>
+          <button id="play-pause-btn" class="w-14 h-14 rounded-full bg-gradient-to-tr from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-xl flex items-center justify-center shadow-lg shadow-amber-500/20 transition transform active:scale-95" aria-label="Play">
+            <i id="play-pause-icon" class="fa-solid fa-play ml-1"></i>
+          </button>
+          <button id="next-btn" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center transition border border-slate-700 active:scale-95" aria-label="Next track">
+            <i class="fa-solid fa-forward-step"></i>
+          </button>
+        </div>
+
+        <div class="w-28 text-right">
+          <span id="audio-source-badge" class="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-1 rounded bg-slate-800 text-slate-400 border border-slate-700">
+            <i class="fa-solid fa-disc-drive"></i> READY
+          </span>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Audio Element -->
+  <audio id="html5-audio" class="hidden"></audio>
+
+  <!-- Hidden YouTube Container -->
+  <div id="youtube-player-container" class="fixed -left-[9999px] top-0 opacity-0 pointer-events-none w-80 h-48">
+    <div id="yt-player"></div>
+  </div>
+
+  <!-- ADD TRACK MODAL -->
+<div id="add-song-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+  <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+    <button id="close-add-modal" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2" aria-label="Close Add Track Modal">
+      <i class="fa-solid fa-xmark text-lg"></i>
+    </button>
+    <h3 class="font-display font-bold text-xl text-white mb-1">Add Track to Playlist</h3>
+    <p class="text-xs text-slate-400 mb-5">Upload an MP3 audio file or paste a YouTube video link.</p>
+
+    <div class="grid grid-cols-2 gap-2 p-1 bg-slate-950 rounded-xl mb-5 border border-slate-800">
+      <button id="modal-tab-file" class="py-2 text-xs font-semibold rounded-lg bg-amber-500 text-slate-950 transition" aria-label="Upload MP3 File">
+        <i class="fa-solid fa-file-audio mr-1.5"></i> Upload MP3
+      </button>
+      <button id="modal-tab-youtube" class="py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition" aria-label="Add YouTube Link">
+        <i class="fa-brands fa-youtube mr-1.5 text-red-500"></i> YouTube Link
+      </button>
+    </div>
+
+    <!-- MP3 File Upload Form -->
+    <form id="file-upload-form" class="space-y-4">
+      <div id="drop-zone" class="border-2 border-dashed border-slate-700 hover:border-amber-500/60 rounded-xl p-6 text-center cursor-pointer transition bg-slate-950/50">
+        <i class="fa-solid fa-cloud-arrow-up text-3xl text-amber-500/80 mb-2"></i>
+        <p class="text-xs font-medium text-slate-300">Click to upload or drag & drop .mp3 file</p>
+        <p class="text-[11px] text-slate-400 mt-1">Saves directly into your local browser storage</p>
+        <input type="file" id="mp3-file-input" accept="audio/mp3,audio/wav,audio/mpeg,audio/ogg" class="hidden" />
+      </div>
+      
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">
+          Song Title <span class="text-rose-400">*</span>
+        </label>
+        <input type="text" id="file-title-input" placeholder="e.g. Midnight Chill Beats" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
+      </div>
+      
+      <!-- ===== ARTIST NAME — NOW REQUIRED ===== -->
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">
+          Artist Name <span class="text-rose-400">*</span>
+          <span class="text-[10px] text-slate-500 font-normal ml-1">(required for lyrics search)</span>
+        </label>
+        <input type="text" id="file-artist-input" placeholder="e.g. Lofi Producer" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
+      </div>
+      
+      <button type="submit" id="save-file-song-btn" class="w-full py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition shadow-lg shadow-amber-500/10">
+        Add MP3 Track
+      </button>
+      <p class="text-[10px] text-slate-500 text-center mt-1">
+        <i class="fa-regular fa-circle-info mr-1"></i>Artist name is used to find lyrics via LRCLIB
+      </p>
+    </form>
+
+    <!-- YouTube URL Form -->
+    <form id="youtube-url-form" class="space-y-4 hidden">
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">YouTube Video Link</label>
+        <input type="url" id="yt-url-input" placeholder="https://www.youtube.com/watch?v=..." required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">
+          Song Title <span class="text-rose-400">*</span>
+        </label>
+        <input type="text" id="yt-title-input" placeholder="e.g. Synthwave Highway Drive" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">
+          Artist / Channel <span class="text-rose-400">*</span>
+          <span class="text-[10px] text-slate-500 font-normal ml-1">(required for lyrics search)</span>
+        </label>
+        <input type="text" id="yt-artist-input" placeholder="e.g. Retro Master" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
+      </div>
+      <button type="submit" class="w-full py-2.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition">
+        Add YouTube Track
+      </button>
+      <p class="text-[10px] text-slate-500 text-center mt-1">
+        <i class="fa-regular fa-circle-info mr-1"></i>Artist name is used to find lyrics via LRCLIB
+      </p>
+      <p class="text-[10px] text-slate-500 text-center">
+        <i class="fa-regular fa-copyright mr-1"></i>Please ensure you have the right to play this content
+      </p>
+    </form>
+  </div>
+</div>
+
+  <!-- VINYL STYLE CUSTOMIZER MODAL -->
+  <div id="vinyl-theme-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-lg z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-700/60 rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+      <button id="close-theme-modal" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2 transition hover:scale-110" aria-label="Close Theme Customizer Modal">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      
+      <h3 class="font-display font-bold text-xl text-white mb-1 flex items-center gap-2">
+        <i class="fa-solid fa-palette text-amber-400"></i> Customize Turntable
+      </h3>
+      <p class="text-xs text-slate-400 mb-5">Choose custom vinyl record colors and center label style.</p>
+
+      <div class="space-y-5">
+        <!-- Vinyl Pressing Color -->
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-2.5 flex items-center gap-2">
+            <i class="fa-solid fa-record-vinyl text-amber-400/70"></i> Vinyl Pressing Color
+          </label>
+          <div class="grid grid-cols-4 gap-3">
+            <button data-vinyl-color="classic" class="vinyl-color-btn active" title="Classic Onyx Black">
+              <div class="color-swatch" style="background: radial-gradient(circle at 35% 30%, #3a3a3a, #0a0a0a);"></div>
+              <div class="groove-preview"></div>
+              <div class="groove-preview"></div>
+              <div class="groove-preview"></div>
+              <div class="ring-preview"></div>
+              <div class="check-mark"><i class="fa-solid fa-check"></i></div>
+              <span class="label-text">Classic</span>
+            </button>
+            
+            <button data-vinyl-color="ruby" class="vinyl-color-btn" title="Ruby Red Pressing">
+              <div class="color-swatch" style="background: radial-gradient(circle at 35% 30%, #e11d48, #881337, #4c0519);"></div>
+              <div class="groove-preview"></div>
+              <div class="groove-preview"></div>
+              <div class="groove-preview"></div>
+              <div class="ring-preview"></div>
+              <div class="check-mark"><i class="fa-solid fa-check"></i></div>
+              <span class="label-text">Ruby</span>
+            </button>
+            
+            <button data-vinyl-color="cyan" class="vinyl-color-btn" title="Neon Cyan Pressing">
+              <div class="color-swatch" style="background: radial-gradient(circle at 35% 30%, #22d3ee, #0e7490, #164e63);"></div>
+              <div class="groove-preview"></div>
+              <div class="groove-preview"></div>
+              <div class="groove-preview"></div>
+              <div class="ring-preview"></div>
+              <div class="check-mark"><i class="fa-solid fa-check"></i></div>
+              <span class="label-text">Cyan</span>
+            </button>
+            
+            <button data-vinyl-color="gold" class="vinyl-color-btn" title="Limited Gold Edition">
+              <div class="color-swatch" style="background: radial-gradient(circle at 35% 30%, #fbbf24, #b45309, #78350f);"></div>
+              <div class="groove-preview"></div>
+              <div class="groove-preview"></div>
+              <div class="groove-preview"></div>
+              <div class="ring-preview"></div>
+              <div class="check-mark"><i class="fa-solid fa-check"></i></div>
+              <span class="label-text">Gold</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Center Label Gradient -->
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-2.5 flex items-center gap-2">
+            <i class="fa-solid fa-circle-dot text-amber-400/70"></i> Center Label Gradient
+          </label>
+          <div class="grid grid-cols-3 gap-3">
+            <button data-label-bg="from-amber-600 via-orange-600 to-rose-600" class="label-gradient-btn active" title="Warm Sunset">
+              <div class="absolute inset-0 bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600"></div>
+              <div class="check-mark"><i class="fa-solid fa-check"></i></div>
+              <span class="absolute bottom-1.5 left-1/2 -translate-x-1/2 text-[7px] font-mono text-white/40 uppercase tracking-wider">Sunset</span>
+            </button>
+            
+            <button data-label-bg="from-indigo-600 via-purple-600 to-pink-600" class="label-gradient-btn" title="Cosmic Purple">
+              <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600"></div>
+              <div class="check-mark"><i class="fa-solid fa-check"></i></div>
+              <span class="absolute bottom-1.5 left-1/2 -translate-x-1/2 text-[7px] font-mono text-white/40 uppercase tracking-wider">Cosmic</span>
+            </button>
+            
+            <button data-label-bg="from-emerald-600 via-teal-600 to-cyan-600" class="label-gradient-btn" title="Ocean Breeze">
+              <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600"></div>
+              <div class="check-mark"><i class="fa-solid fa-check"></i></div>
+              <span class="absolute bottom-1.5 left-1/2 -translate-x-1/2 text-[7px] font-mono text-white/40 uppercase tracking-wider">Ocean</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-5 pt-3 border-t border-slate-700/50 flex items-center justify-between text-[10px] text-slate-400">
+        <span><i class="fa-regular fa-eye mr-1.5"></i>Live preview on turntable</span>
+        <span class="text-slate-600">Changes auto-save</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RENAME PLAYLIST MODAL -->
+  <div id="rename-playlist-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-sm p-6 shadow-2xl relative">
+      <h3 class="font-display font-bold text-lg text-white mb-3">Rename Playlist</h3>
+      <input type="text" id="rename-input" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500 mb-4">
+      <div class="flex justify-end gap-2">
+        <button id="cancel-rename-btn" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs">Cancel</button>
+        <button id="save-rename-btn" class="px-3 py-1.5 rounded-lg bg-amber-500 text-slate-950 text-xs font-bold">Save Name</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLEEP TIMER MODAL -->
+  <div id="sleep-timer-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-sm p-6 shadow-2xl relative">
+      <button id="close-sleep-modal" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2" aria-label="Close Sleep Timer Modal">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <h3 class="font-display font-bold text-lg text-white mb-1"><i class="fa-solid fa-moon text-indigo-400 mr-2"></i>Sleep Timer</h3>
+      <p class="text-xs text-slate-400 mb-4">Automatically fade out audio and stop turntable when timer reaches zero.</p>
+      <div class="grid grid-cols-3 gap-2 mb-4">
+        <button data-minutes="15" class="sleep-option-btn py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-xs font-mono text-slate-200 border border-slate-700">15 Mins</button>
+        <button data-minutes="30" class="sleep-option-btn py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-xs font-mono text-slate-200 border border-slate-700">30 Mins</button>
+        <button data-minutes="60" class="sleep-option-btn py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-xs font-mono text-slate-200 border border-slate-700">60 Mins</button>
+      </div>
+      <button id="cancel-sleep-btn" class="w-full py-2 rounded-lg bg-rose-950/60 text-rose-300 text-xs font-medium border border-rose-200">Turn Off Timer</button>
+    </div>
+  </div>
+
+  <!-- KEYBOARD SHORTCUTS MODAL -->
+  <div id="shortcuts-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-sm p-6 shadow-2xl relative">
+      <button id="close-shortcuts-modal" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2" aria-label="Close Keyboard Shortcuts Modal">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <h3 class="font-display font-bold text-lg text-white mb-3"><i class="fa-solid fa-keyboard text-amber-400 mr-2"></i>Keyboard Shortcuts</h3>
+      <div class="space-y-2 text-xs font-mono">
+        <div class="flex justify-between border-b border-slate-800 pb-1.5"><span class="text-slate-400">Play / Pause</span><span class="bg-slate-800 px-2 py-0.5 rounded text-amber-400">Space</span></div>
+        <div class="flex justify-between border-b border-slate-800 pb-1.5"><span class="text-slate-400">Next Track</span><span class="bg-slate-800 px-2 py-0.5 rounded text-amber-400">N</span></div>
+        <div class="flex justify-between border-b border-slate-800 pb-1.5"><span class="text-slate-400">Previous Track</span><span class="bg-slate-800 px-2 py-0.5 rounded text-amber-400">P</span></div>
+        <div class="flex justify-between border-b border-slate-800 pb-1.5"><span class="text-slate-400">Toggle Lo-Fi Filter</span><span class="bg-slate-800 px-2 py-0.5 rounded text-amber-400">L</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Seek - / + 5 sec</span><span class="bg-slate-800 px-2 py-0.5 rounded text-amber-400">← / →</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>
