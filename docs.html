@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vinylify — Documentation & About</title>
+  
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Space Grotesk"', 'sans-serif'],
+            body: ['"Outfit"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            vinyl: {
+              dark: '#0a0d14',
+              groove: '#111827',
+              center: '#ef4444',
+              tonearm: '#9ca3af',
+              accent: '#f59e0b'
+            }
+          },
+          animation: {
+            'spin-slow': 'spin 3s linear infinite',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #0f0f1a;
+    }
+    .font-display {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Vinyl Record Groove Texture for decorative elements */
+    .vinyl-grooves-bg {
+      background: radial-gradient(circle at 30% 30%, 
+        #1f2937 0%, 
+        #0b0f19 25%, 
+        #1f2937 26%, 
+        #0b0f19 45%, 
+        #374151 46%, 
+        #0b0f19 65%, 
+        #1f2937 66%, 
+        #030712 100%);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #f59e0b;
+      border-radius: 8px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #d97706;
+    }
+
+    /* Feature card hover */
+    .feature-card {
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 1px solid rgba(51, 65, 85, 0.4);
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(245, 158, 11, 0.4);
+      box-shadow: 0 12px 40px rgba(245, 158, 11, 0.08);
+    }
+
+    /* Keycap style for shortcuts */
+    .keycap {
+      display: inline-block;
+      background: #1e293b;
+      padding: 2px 10px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #f59e0b;
+      border: 1px solid #334155;
+      box-shadow: 0 2px 0 #0f172a;
+    }
+
+    /* Section divider */
+    .section-divider {
+      background: linear-gradient(to right, transparent, rgba(245, 158, 11, 0.2), transparent);
+      height: 1px;
+    }
+
+    /* Glow animation for logo */
+    @keyframes glow-pulse {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.15)); }
+      50% { filter: drop-shadow(0 0 40px rgba(245, 158, 11, 0.3)); }
+    }
+    .logo-glow {
+      animation: glow-pulse 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+
+<body class="h-full flex flex-col bg-slate-950 text-slate-100 selection:bg-amber-500 selection:text-slate-950">
+  
+  <!-- ===== NAVIGATION ===== -->
+  <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur-md sticky top-0 z-40 px-4 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <a href="/" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-orange-500 to-rose-500 flex items-center justify-center shadow-lg shadow-amber-500/20 text-slate-950 font-black text-xl logo-glow">
+          <i class="fa-solid fa-compact-disc animate-spin-slow"></i>
+        </div>
+        <div>
+          <h1 class="font-display font-bold text-xl tracking-tight text-white flex items-center gap-2">
+            Vinylify <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 font-mono tracking-widest font-semibold">DOCS</span>
+          </h1>
+          <p class="text-xs text-slate-400">Documentation & About</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <a href="/" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-amber-500/10">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Back to Player</span>
+      </a>
+      <a href="https://github.com" target="_blank" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs border border-slate-700 transition" aria-label="GitHub">
+        <i class="fa-brands fa-github"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 md:px-6 py-8 md:py-12">
+    
+    <!-- ===== HERO SECTION ===== -->
+    <section class="text-center mb-12">
+      <div class="inline-block mb-4 p-4 rounded-2xl vinyl-grooves-bg border border-slate-800/60 shadow-2xl">
+        <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-amber-500 via-orange-500 to-rose-500 flex items-center justify-center text-slate-950 text-4xl shadow-lg shadow-amber-500/20 logo-glow">
+          <i class="fa-solid fa-compact-disc animate-spin-slow"></i>
+        </div>
+      </div>
+      <h1 class="font-display font-bold text-4xl md:text-5xl tracking-tight text-white">
+        Welcome to <span class="bg-gradient-to-r from-amber-400 to-rose-400 bg-clip-text text-transparent">Vinylify</span>
+      </h1>
+      <p class="text-slate-400 text-lg mt-3 max-w-2xl mx-auto">
+        A personal retro vinyl turntable and playlist manager<br class="hidden sm:block" />
+        that runs entirely in your browser.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-3 mt-6">
+        <span class="inline-flex items-center gap-1.5 text-xs bg-emerald-950/60 text-emerald-400 border border-emerald-800/40 px-3 py-1.5 rounded-full">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <i class="fa-solid fa-hard-drive text-emerald-400"></i>
+          100% Client-Side
+        </span>
+        <span class="inline-flex items-center gap-1.5 text-xs bg-amber-950/60 text-amber-400 border border-amber-800/40 px-3 py-1.5 rounded-full">
+          <i class="fa-solid fa-lock"></i>
+          Private
+        </span>
+        <span class="inline-flex items-center gap-1.5 text-xs bg-rose-950/60 text-rose-400 border border-rose-800/40 px-3 py-1.5 rounded-full">
+          <i class="fa-regular fa-copyright"></i>
+          MIT License
+        </span>
+      </div>
+    </section>
+
+    <!-- ===== SECTION DIVIDER ===== -->
+    <div class="section-divider my-10"></div>
+
+    <!-- ===== WHAT IS VINYLIFY ===== -->
+    <section class="mb-12">
+      <h2 class="font-display font-bold text-2xl text-white flex items-center gap-3 mb-4">
+        <i class="fa-solid fa-circle-info text-amber-400"></i>
+        What is Vinylify?
+      </h2>
+      <div class="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-6 text-slate-300 leading-relaxed space-y-3">
+        <p>
+          <strong class="text-white">Vinylify</strong> is a personal, browser-based music player designed to give you the nostalgic feel of a vinyl turntable with modern convenience.
+        </p>
+        <p>
+          It combines the <strong class="text-amber-400">warmth of vinyl</strong> with the flexibility of digital music. All your playlists and uploaded MP3s are stored locally in your browser using IndexedDB — nothing is sent to any server.
+        </p>
+        <p>
+          Whether you're listening to <strong class="text-amber-400">MP3 files</strong> or streaming <strong class="text-amber-400">YouTube videos</strong>, Vinylify provides a unique, immersive experience with a fully animated turntable interface.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== SECTION DIVIDER ===== -->
+    <div class="section-divider my-10"></div>
+
+    <!-- ===== KEY FEATURES ===== -->
+    <section class="mb-12">
+      <h2 class="font-display font-bold text-2xl text-white flex items-center gap-3 mb-6">
+        <i class="fa-solid fa-star text-amber-400"></i>
+        Key Features
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Feature 1 -->
+        <div class="feature-card bg-slate-900/60 rounded-2xl p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400">
+              <i class="fa-solid fa-list-ul text-lg"></i>
+            </div>
+            <h3 class="font-display font-semibold text-white">Playlist Management</h3>
+          </div>
+          <p class="text-sm text-slate-400">Create, rename, and delete playlists. Add tracks with ease.</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card bg-slate-900/60 rounded-2xl p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+              <i class="fa-solid fa-file-audio text-lg"></i>
+            </div>
+            <h3 class="font-display font-semibold text-white">MP3 Upload</h3>
+          </div>
+          <p class="text-sm text-slate-400">Upload MP3 files and store them locally in your browser's IndexedDB.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card bg-slate-900/60 rounded-2xl p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center text-red-400">
+              <i class="fa-brands fa-youtube text-lg"></i>
+            </div>
+            <h3 class="font-display font-semibold text-white">YouTube Support</h3>
+          </div>
+          <p class="text-sm text-slate-400">Add and play YouTube videos via the IFrame API. Great for songs not in your library.</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-card bg-slate-900/60 rounded-2xl p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-400">
+              <i class="fa-solid fa-record-vinyl text-lg"></i>
+            </div>
+            <h3 class="font-display font-semibold text-white">Vinyl Turntable</h3>
+          </div>
+          <p class="text-sm text-slate-400">Fully animated vinyl record with tonearm movement, pitch control, and RPM switching.</p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="feature-card bg-slate-900/60 rounded-2xl p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400">
+              <i class="fa-solid fa-sliders text-lg"></i>
+            </div>
+            <h3 class="font-display font-semibold text-white">Audio Effects</h3>
+          </div>
+          <p class="text-sm text-slate-400">3-band EQ, Lo-Fi filter, vinyl crackle simulation, and pitch adjustment.</p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="feature-card bg-slate-900/60 rounded-2xl p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400">
+              <i class="fa-solid fa-music text-lg"></i>
+            </div>
+            <h3 class="font-display font-semibold text-white">Lyrics Engine</h3>
+          </div>
+          <p class="text-sm text-slate-400">Search LRCLIB for lyrics, upload .lrc files, and sync with playback in real-time.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION DIVIDER ===== -->
+    <div class="section-divider my-10"></div>
+
+    <!-- ===== KEYBOARD SHORTCUTS ===== -->
+    <section class="mb-12">
+      <h2 class="font-display font-bold text-2xl text-white flex items-center gap-3 mb-6">
+        <i class="fa-solid fa-keyboard text-amber-400"></i>
+        Keyboard Shortcuts
+      </h2>
+
+      <div class="bg-slate-900/60 border border-slate-800/60 rounded-2xl overflow-hidden">
+        <div class="grid grid-cols-2 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-800/60">
+          <div class="p-4 flex items-center justify-between border-b md:border-b-0 border-slate-800/60">
+            <span class="text-sm text-slate-300">Play / Pause</span>
+            <span class="keycap">Space</span>
+          </div>
+          <div class="p-4 flex items-center justify-between border-b md:border-b-0 border-slate-800/60">
+            <span class="text-sm text-slate-300">Next Track</span>
+            <span class="keycap">N</span>
+          </div>
+          <div class="p-4 flex items-center justify-between">
+            <span class="text-sm text-slate-300">Previous Track</span>
+            <span class="keycap">P</span>
+          </div>
+          <div class="p-4 flex items-center justify-between border-b md:border-b-0 border-slate-800/60">
+            <span class="text-sm text-slate-300">Toggle Lo-Fi Filter</span>
+            <span class="keycap">L</span>
+          </div>
+          <div class="p-4 flex items-center justify-between border-b md:border-b-0 border-slate-800/60">
+            <span class="text-sm text-slate-300">Seek +5 seconds</span>
+            <span class="keycap">→</span>
+          </div>
+          <div class="p-4 flex items-center justify-between">
+            <span class="text-sm text-slate-300">Seek -5 seconds</span>
+            <span class="keycap">←</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION DIVIDER ===== -->
+    <div class="section-divider my-10"></div>
+
+    <!-- ===== TECH STACK ===== -->
+    <section class="mb-12">
+      <h2 class="font-display font-bold text-2xl text-white flex items-center gap-3 mb-6">
+        <i class="fa-solid fa-microchip text-amber-400"></i>
+        Tech Stack
+      </h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-center">
+          <i class="fa-brands fa-html5 text-3xl text-orange-500 mb-2"></i>
+          <p class="text-xs text-slate-400">HTML5</p>
+        </div>
+        <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-center">
+          <i class="fa-brands fa-css3 text-3xl text-blue-500 mb-2"></i>
+          <p class="text-xs text-slate-400">CSS3 + Tailwind</p>
+        </div>
+        <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-center">
+          <i class="fa-brands fa-js text-3xl text-yellow-500 mb-2"></i>
+          <p class="text-xs text-slate-400">JavaScript (Vanilla)</p>
+        </div>
+        <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-center">
+          <i class="fa-solid fa-database text-3xl text-emerald-500 mb-2"></i>
+          <p class="text-xs text-slate-400">IndexedDB</p>
+        </div>
+        <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-center">
+          <i class="fa-brands fa-youtube text-3xl text-red-500 mb-2"></i>
+          <p class="text-xs text-slate-400">YouTube IFrame API</p>
+        </div>
+        <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-center">
+          <i class="fa-solid fa-headphones text-3xl text-purple-500 mb-2"></i>
+          <p class="text-xs text-slate-400">Web Audio API</p>
+        </div>
+        <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-center">
+          <i class="fa-solid fa-file-lines text-3xl text-rose-500 mb-2"></i>
+          <p class="text-xs text-slate-400">LRCLIB API</p>
+        </div>
+        <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-center">
+          <i class="fa-brands fa-font-awesome text-3xl text-cyan-500 mb-2"></i>
+          <p class="text-xs text-slate-400">FontAwesome</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION DIVIDER ===== -->
+    <div class="section-divider my-10"></div>
+
+    <!-- ===== STORAGE & PRIVACY ===== -->
+    <section class="mb-12">
+      <h2 class="font-display font-bold text-2xl text-white flex items-center gap-3 mb-6">
+        <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+        Storage & Privacy
+      </h2>
+
+      <div class="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-6 space-y-3">
+        <div class="flex items-start gap-4">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5">
+            <i class="fa-solid fa-hard-drive"></i>
+          </div>
+          <div>
+            <h4 class="font-semibold text-white text-sm">Local Storage Only</h4>
+            <p class="text-sm text-slate-400">All your playlists and uploaded MP3s are stored locally in your browser using IndexedDB. Nothing is ever sent to any server.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 shrink-0 mt-0.5">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <div>
+            <h4 class="font-semibold text-white text-sm">Data Persistence</h4>
+            <p class="text-sm text-slate-400">Clearing your browser's site data will remove your library. Use the <strong class="text-amber-400">Export</strong> feature to backup your playlists as JSON.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 shrink-0 mt-0.5">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+          </div>
+          <div>
+            <h4 class="font-semibold text-white text-sm">No Cloud Sync</h4>
+            <p class="text-sm text-slate-400">Vinylify is intentionally offline-first and privacy-focused. Your music stays on your device.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION DIVIDER ===== -->
+    <div class="section-divider my-10"></div>
+
+    <!-- ===== FAQ / QUICK HELP ===== -->
+    <section class="mb-12">
+      <h2 class="font-display font-bold text-2xl text-white flex items-center gap-3 mb-6">
+        <i class="fa-solid fa-circle-question text-amber-400"></i>
+        Quick Help
+      </h2>
+
+      <div class="space-y-3">
+        <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
+          <h4 class="font-semibold text-white text-sm flex items-center gap-2">
+            <i class="fa-regular fa-circle-play text-amber-400"></i>
+            How do I add a song?
+          </h4>
+          <p class="text-sm text-slate-400 mt-1">Click the <strong class="text-amber-400">"Add Track"</strong> button in your playlist. You can upload an MP3 file or paste a YouTube link.</p>
+        </div>
+        <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
+          <h4 class="font-semibold text-white text-sm flex items-center gap-2">
+            <i class="fa-regular fa-file-lines text-amber-400"></i>
+            How do I get lyrics?
+          </h4>
+          <p class="text-sm text-slate-400 mt-1">Click the <strong class="text-amber-400">"LYRICS"</strong> button on the turntable. Vinylify will search LRCLIB automatically. You can also paste lyrics or upload an .lrc file.</p>
+        </div>
+        <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
+          <h4 class="font-semibold text-white text-sm flex items-center gap-2">
+            <i class="fa-regular fa-hard-drive text-amber-400"></i>
+            Where are my songs stored?
+          </h4>
+          <p class="text-sm text-slate-400 mt-1">All your songs and playlists are stored locally in your browser using <strong class="text-amber-400">IndexedDB</strong>. They stay on your device.</p>
+        </div>
+        <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
+          <h4 class="font-semibold text-white text-sm flex items-center gap-2">
+            <i class="fa-regular fa-copyright text-amber-400"></i>
+            Are my uploaded MP3s shared?
+          </h4>
+          <p class="text-sm text-slate-400 mt-1">No. Everything stays local. Vinylify does not upload your files anywhere.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION DIVIDER ===== -->
+    <div class="section-divider my-10"></div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="text-center text-slate-500 text-xs py-4 border-t border-slate-800/40">
+      <p class="flex items-center justify-center gap-4 flex-wrap">
+        <span>Vinylify Studio</span>
+        <span class="w-px h-3 bg-slate-700/50"></span>
+        <span><i class="fa-regular fa-copyright mr-1"></i>MIT License</span>
+        <span class="w-px h-3 bg-slate-700/50"></span>
+        <span>Made with <i class="fa-solid fa-heart text-rose-400 mx-0.5"></i> for music lovers</span>
+        <span class="w-px h-3 bg-slate-700/50"></span>
+        <a href="/" class="text-amber-400 hover:text-amber-300 transition">← Back to Player</a>
+      </p>
+    </footer>
+
+  </main>
+
+  <!-- Toast Notification (for feedback) -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <script>
+    // Simple toast for "Back to Player" clicks
+    document.querySelectorAll('a[href="/"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showToast('🎵 Returning to Vinylify Player...', 'info');
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 800);
+      });
+    });
+
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const bg = type === 'success' ? 'bg-emerald-900/90 border-emerald-700 text-emerald-200' :
+                 type === 'error' ? 'bg-rose-900/90 border-rose-700 text-rose-200' :
+                 'bg-slate-800/90 border-slate-700 text-amber-300';
+      toast.className = `px-4 py-2.5 rounded-xl border ${bg} text-xs font-medium shadow-2xl backdrop-blur-md transition transform translate-y-2 pointer-events-auto flex items-center gap-2`;
+      toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-check' : type === 'error' ? 'fa-triangle-exclamation' : 'fa-circle-info'}"></i><span>${msg}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3200);
+    }
+  </script>
+
+</body>
+</html>
