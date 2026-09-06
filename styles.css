@@ -369,3 +369,404 @@ input[type=range].pitch-slider::-moz-range-thumb {
 #lyrics-content::-webkit-scrollbar-thumb:hover {
   background: #e11d48;
 }
+
+/* ========================================
+   MOBILE OPTIMIZATIONS
+   ======================================== */
+
+/* ---- Mobile First - Small Screens ---- */
+@media (max-width: 480px) {
+    /* --- Header --- */
+    header {
+        padding: 8px 12px;
+    }
+    header .flex.items-center.gap-3 {
+        gap: 6px;
+    }
+    header .w-10.h-10 {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+    header h1 {
+        font-size: 14px;
+    }
+    header .text-xs {
+        font-size: 8px !important;
+    }
+    header .px-3.py-1.5 {
+        padding: 4px 8px;
+        font-size: 9px;
+    }
+    
+    /* Hide some header items on mobile */
+    .header-actions .hidden.xl\\:flex {
+        display: none !important;
+    }
+
+    /* --- Main Grid --- */
+    .lg\\:col-span-5,
+    .lg\\:col-span-7 {
+        grid-column: span 12 !important;
+    }
+    .gap-6 {
+        gap: 12px;
+    }
+    .p-4 {
+        padding: 10px;
+    }
+    .md\\:p-6 {
+        padding: 10px;
+    }
+
+    /* --- Left Panel --- */
+    .rounded-2xl {
+        border-radius: 16px;
+    }
+    .min-h-\[360px\] {
+        min-height: 240px;
+    }
+    .max-h-\[500px\] {
+        max-height: 340px;
+    }
+
+    /* --- Playlist Tabs --- */
+    #playlist-tabs-container button {
+        padding: 4px 8px !important;
+        font-size: 9px !important;
+    }
+    #playlist-tabs-container .fa-compact-disc {
+        font-size: 8px !important;
+    }
+
+    /* --- Song List --- */
+    .song-item {
+        padding: 6px 10px !important;
+        gap: 6px !important;
+    }
+    .song-item .w-8.h-8 {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+    }
+    .song-item .title {
+        font-size: 11px !important;
+    }
+    .song-item .text-\[11px\] {
+        font-size: 9px !important;
+    }
+
+    /* --- Turntable --- */
+    .max-w-\[420px\] {
+        max-width: 100%;
+    }
+    .max-w-\[370px\] {
+        max-width: 100%;
+    }
+    .rounded-2xl.p-4 {
+        padding: 8px;
+    }
+    .p-4.md\\:p-6 {
+        padding: 8px;
+    }
+
+    /* --- Pitch Slider --- */
+    .absolute.left-3.bottom-4 {
+        left: 2px !important;
+        bottom: 8px !important;
+        padding: 6px 8px !important;
+    }
+    .pitch-slider {
+        height: 50px !important;
+        width: 3px !important;
+    }
+    .pitch-slider::-webkit-slider-thumb {
+        width: 12px !important;
+        height: 12px !important;
+    }
+    .text-\[8px\] {
+        font-size: 6px !important;
+    }
+    .text-\[9px\] {
+        font-size: 7px !important;
+    }
+
+    /* --- Tonearm --- */
+    .top-5.right-5.w-28.h-56 {
+        width: 20px;
+        height: 40px;
+        top: 2px;
+        right: 2px;
+    }
+    .tonearm-container {
+        transform: scale(0.5) !important;
+        transform-origin: top right !important;
+    }
+    .tonearm-playing {
+        transform: scale(0.5) rotate(27deg) !important;
+    }
+
+    /* --- Vinyl Record --- */
+    .w-\[82\%\] {
+        width: 85% !important;
+    }
+    .h-\[82\%\] {
+        height: 85% !important;
+    }
+    .w-\[44\%\] {
+        width: 50% !important;
+    }
+    .h-\[44\%\] {
+        height: 50% !important;
+    }
+    .w-4.h-4 {
+        width: 8px !important;
+        height: 8px !important;
+    }
+
+    /* --- Lyrics Panel --- */
+    #lyrics-panel {
+        border-radius: 12px !important;
+        padding: 10px !important;
+    }
+    #lyrics-panel .text-sm {
+        font-size: 11px !important;
+    }
+    #lyrics-panel .text-xs {
+        font-size: 9px !important;
+    }
+    .lyrics-line {
+        font-size: 11px !important;
+        padding: 2px 8px !important;
+    }
+    #lyrics-content {
+        max-height: 200px !important;
+    }
+    #lyrics-manual-input {
+        font-size: 10px !important;
+        padding: 4px 8px !important;
+    }
+    #lyrics-manual-add {
+        font-size: 9px !important;
+        padding: 4px 8px !important;
+    }
+
+    /* --- Equalizer --- */
+    .grid-cols-4 {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 6px !important;
+        padding: 6px !important;
+    }
+    .grid-cols-4 label {
+        font-size: 8px !important;
+    }
+    .grid-cols-4 input[type="range"] {
+        height: 2px !important;
+    }
+    .grid-cols-4 .text-\[9px\] {
+        font-size: 7px !important;
+    }
+
+    /* --- Transport Controls --- */
+    .flex.items-center.justify-between.gap-4 {
+        gap: 6px !important;
+    }
+    .w-28 {
+        width: 70px !important;
+    }
+    .w-10.h-10 {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 12px !important;
+    }
+    .w-14.h-14 {
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 14px !important;
+    }
+
+    /* --- Volume Control --- */
+    .w-28 .w-full {
+        width: 50px !important;
+    }
+
+    /* --- Modals --- */
+    .max-w-md {
+        max-width: 95% !important;
+        margin: 0 8px !important;
+    }
+    .p-6 {
+        padding: 16px !important;
+    }
+    .text-xl {
+        font-size: 16px !important;
+    }
+    .text-xs {
+        font-size: 10px !important;
+    }
+    .px-3.py-2 {
+        padding: 6px 10px !important;
+        font-size: 11px !important;
+    }
+
+    /* --- Customizer Modal --- */
+    .grid-cols-4.gap-3 {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 4px !important;
+    }
+    .grid-cols-3.gap-3 {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 4px !important;
+    }
+    .vinyl-color-btn {
+        border-radius: 8px !important;
+    }
+    .vinyl-color-btn .color-swatch {
+        width: 60% !important;
+        height: 60% !important;
+    }
+    .label-gradient-btn {
+        height: 32px !important;
+    }
+
+    /* --- Footer --- */
+    footer {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 6px !important;
+        padding: 8px 12px !important;
+        text-align: center !important;
+    }
+    footer .flex.items-center.gap-4 {
+        gap: 6px !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+    }
+    footer .text-xs {
+        font-size: 9px !important;
+    }
+    footer .text-\[10px\] {
+        font-size: 8px !important;
+    }
+    footer .hidden.sm\\:block {
+        display: none !important;
+    }
+
+    /* --- Toast --- */
+    #toast-container {
+        bottom: 10px !important;
+        right: 10px !important;
+        left: 10px !important;
+    }
+    #toast-container .px-4.py-2\\.5 {
+        padding: 8px 12px !important;
+        font-size: 10px !important;
+    }
+
+    /* --- Warning Note --- */
+    .warning-note {
+        padding: 8px 10px !important;
+        gap: 6px !important;
+    }
+    .warning-note .text-lg {
+        font-size: 14px !important;
+    }
+    .warning-note .text-xs {
+        font-size: 9px !important;
+    }
+    .warning-note .text-\[11px\] {
+        font-size: 8px !important;
+    }
+}
+
+/* ---- Tablet Optimization ---- */
+@media (min-width: 481px) and (max-width: 768px) {
+    .lg\\:col-span-5 {
+        grid-column: span 12 !important;
+    }
+    .lg\\:col-span-7 {
+        grid-column: span 12 !important;
+    }
+    .gap-6 {
+        gap: 16px;
+    }
+    .max-w-\[420px\] {
+        max-width: 80%;
+    }
+    .grid-cols-4 {
+        grid-template-columns: 1fr 1fr !important;
+    }
+    .w-28 {
+        width: 80px !important;
+    }
+}
+
+/* ---- Small Mobile Fixes ---- */
+@media (max-width: 360px) {
+    header .flex.items-center.gap-2 {
+        gap: 4px !important;
+    }
+    header .px-3.py-1\\.5 {
+        padding: 2px 6px !important;
+        font-size: 8px !important;
+    }
+    .song-item .title {
+        font-size: 10px !important;
+    }
+    .text-\[10px\] {
+        font-size: 8px !important;
+    }
+    .text-\[11px\] {
+        font-size: 9px !important;
+    }
+    .w-14.h-14 {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 12px !important;
+    }
+    .w-10.h-10 {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 10px !important;
+    }
+    .p-4 {
+        padding: 6px !important;
+    }
+    .rounded-2xl {
+        border-radius: 12px !important;
+    }
+}
+
+/* ---- Touch-Friendly Adjustments ---- */
+@media (pointer: coarse) {
+    /* Larger touch targets for mobile */
+    button, 
+    .song-item,
+    .playlist-item,
+    .rpm-btn,
+    .vinyl-color-btn,
+    .label-gradient-btn,
+    #lyrics-toggle-btn,
+    #lofi-filter-btn {
+        min-height: 36px !important;
+    }
+    
+    /* Better slider touch targets */
+    input[type="range"] {
+        height: 6px !important;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+        width: 20px !important;
+        height: 20px !important;
+    }
+    input[type="range"]::-moz-range-thumb {
+        width: 20px !important;
+        height: 20px !important;
+    }
+    
+    /* Pitch slider thumb */
+    .pitch-slider::-webkit-slider-thumb {
+        width: 16px !important;
+        height: 16px !important;
+    }
+}
