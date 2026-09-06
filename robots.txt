@@ -1,0 +1,8 @@
+# Vinylify Studio — Robots.txt
+# Allow all search engines to index the site
+
+User-agent: *
+Allow: /
+
+# Tell search engines where to find the sitemap
+Sitemap: https://vinylify-studio.vercel.app/sitemap.xml
