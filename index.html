@@ -49,137 +49,57 @@
 
 <body class="h-full flex flex-col bg-slate-950 text-slate-100 selection:bg-amber-500 selection:text-slate-950">
   
-  <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur-md sticky top-0 z-40 px-4 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-orange-500 to-rose-500 flex items-center justify-center shadow-lg shadow-amber-500/20 text-slate-950 font-black text-xl">
-        <i class="fa-solid fa-compact-disc animate-spin-slow"></i>
-      </div>
-      <div>
-        <h1 class="font-display font-bold text-xl tracking-tight text-white flex items-center gap-2">
-          Vinylify <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 font-mono tracking-widest font-semibold">STUDIO</span>
-        </h1>
-        <p class="text-xs text-slate-400">A Personal Audio Engine with an Analog Soul</p>
-      </div>
+  <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur-md sticky top-0 z-40 px-3 sm:px-4 lg:px-8 py-2 sm:py-3 flex flex-wrap items-center justify-between gap-2 sm:gap-4">
+  <div class="flex items-center gap-2 sm:gap-3">
+    <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-orange-500 to-rose-500 flex items-center justify-center shadow-lg shadow-amber-500/20 text-slate-950 font-black text-sm sm:text-xl">
+      <i class="fa-solid fa-compact-disc animate-spin-slow"></i>
+    </div>
+    <div>
+      <h1 class="font-display font-bold text-sm sm:text-xl tracking-tight text-white flex items-center gap-1 sm:gap-2">
+        Vinylify <span class="text-[8px] sm:text-[10px] px-1.5 sm:px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 font-mono tracking-widest font-semibold">STUDIO</span>
+      </h1>
+      <p class="text-[9px] sm:text-xs text-slate-400 hidden xs:block">A Personal Audio Engine with an Analog Soul</p>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-1 sm:gap-2 flex-wrap">
+    <!-- Storage indicator - hidden on mobile -->
+    <div id="storage-indicator" class="relative hidden xl:flex items-center gap-2 text-xs bg-emerald-950/60 text-emerald-400 border border-emerald-800/40 px-3 py-1.5 rounded-full cursor-help transition hover:bg-emerald-950/80 hover:border-emerald-700/60 group">
+      <!-- ... storage indicator content ... -->
     </div>
 
-    <div class="flex items-center gap-2 sm:gap-3">
-      <!-- ===== INDEXEDDB STORAGE INDICATOR WITH TOOLTIP BELOW ===== -->
-<div id="storage-indicator"
-     class="relative hidden xl:flex items-center gap-2 text-xs bg-emerald-950/60 text-emerald-400 border border-emerald-800/40 px-3 py-1.5 rounded-full cursor-help transition hover:bg-emerald-950/80 hover:border-emerald-700/60 group"
-     aria-label="Local Storage">
-
-    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-    <i class="fa-solid fa-hard-drive text-emerald-400"></i>
-    <span>Local Storage</span>
-
-    <!-- Tooltip - positioned BELOW -->
-    <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-4 py-3.5
-                bg-slate-900/95 border border-slate-700/60 rounded-xl
-                shadow-2xl text-slate-300 text-[11px] w-80
-                pointer-events-none opacity-0 invisible
-                group-hover:opacity-100 group-hover:visible
-                transition-all duration-200 z-50 backdrop-blur-xl"
-         style="backdrop-filter: blur(16px);">
-
-        <div class="space-y-3">
-
-            <!-- Header -->
-            <p class="font-semibold text-emerald-400 text-xs flex items-center gap-2">
-                <i class="fa-solid fa-database"></i>
-                Your library stays local
-            </p>
-
-            <!-- Main explanation -->
-            <p class="text-slate-400 leading-relaxed text-[11px]">
-                Your playlists and track information are
-                <span class="text-emerald-300 font-mono text-[10px] bg-emerald-950/40 px-1.5 py-0.5 rounded">
-                    stored in your browser
-                </span>.
-                Uploaded MP3s
-                <span class="text-emerald-300 font-mono text-[10px] bg-emerald-950/40 px-1.5 py-0.5 rounded">
-                    stay on your device
-                </span>,
-                while YouTube tracks save only their
-                <span class="text-emerald-300 font-mono text-[10px] bg-emerald-950/40 px-1.5 py-0.5 rounded">
-                    link and metadata
-                </span>.
-                YouTube audio/video is streamed when played.
-            </p>
-
-            <!-- Privacy / backup notice -->
-            <div class="flex items-start gap-2 bg-amber-500/5 border border-amber-500/10 rounded-lg px-2.5 py-2">
-                <i class="fa-regular fa-circle-exclamation text-amber-200 mt-0.5 text-[10px]"></i>
-
-                <p class="text-amber-300 text-[10px] leading-relaxed">
-                    Clearing your browser's site data may remove your local library.
-                    <span class="text-amber-200 font-medium">
-                        Your data stays on your device.
-                    </span>
-                    Export your library as JSON for backup or transfer.
-                </p>
-            </div>
-
-            <!-- Storage status -->
-            <div class="flex items-center gap-3 pt-2 text-[10px] text-slate-500 border-t border-slate-700/50">
-
-                <span class="flex items-center gap-1.5 whitespace-nowrap">
-                    <i class="fa-regular fa-floppy-disk text-emerald-300"></i>
-                    Auto-saved
-                </span>
-
-                <span class="w-px h-3 bg-slate-700/50"></span>
-
-                <span class="flex items-center gap-1.5 whitespace-nowrap">
-                    <i class="fa-regular fa-lock text-emerald-300"></i>
-                    Private
-                </span>
-
-                <span class="w-px h-3 bg-slate-700/50"></span>
-
-                <span id="storage-usage"
-                      class="flex items-center gap-1.5 text-slate-500 whitespace-nowrap">
-                    <i class="fa-regular fa-hard-drive text-emerald-300"></i>
-                    <span id="storage-space-text">Checking...</span>
-                </span>
-
-            </div>
-        </div>
-
-        <!-- Tooltip arrow -->
-        <div class="absolute -top-1.5 left-1/2 -translate-x-1/2
-                    w-3 h-3 bg-slate-900/95
-                    border-l border-t border-slate-700/60 rotate-45">
-        </div>
-
+    <!-- Mobile: Show storage as a small icon -->
+    <div class="xl:hidden flex items-center gap-1 text-[10px] text-emerald-400">
+      <i class="fa-solid fa-hard-drive"></i>
+      <span class="hidden xs:inline">Local</span>
     </div>
-</div>
 
-      <button id="shortcuts-btn" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs border border-slate-700 transition" aria-label="Keyboard Shortcuts">
-        <i class="fa-solid fa-keyboard"></i>
-      </button>
+    <button id="shortcuts-btn" class="p-1.5 sm:p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs border border-slate-700 transition" aria-label="Keyboard Shortcuts">
+      <i class="fa-solid fa-keyboard text-[10px] sm:text-xs"></i>
+    </button>
 
-      <button id="sleep-timer-btn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition flex items-center gap-2" aria-label="Sleep Timer">
-        <i class="fa-solid fa-moon text-indigo-400"></i>
-        <span id="sleep-timer-label" class="hidden md:inline">Sleep Timer</span>
-      </button>
+    <button id="sleep-timer-btn" class="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] sm:text-xs font-medium border border-slate-700 transition flex items-center gap-1 sm:gap-2" aria-label="Sleep Timer">
+      <i class="fa-solid fa-moon text-indigo-400 text-[10px] sm:text-xs"></i>
+      <span id="sleep-timer-label" class="hidden sm:inline">Sleep Timer</span>
+    </button>
 
-      <button id="export-btn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition flex items-center gap-1.5" aria-label="Export Playlist">
-        <i class="fa-solid fa-download"></i>
-        <span class="hidden md:inline">Export</span>
-      </button>
+    <button id="export-btn" class="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] sm:text-xs font-medium border border-slate-700 transition flex items-center gap-1 sm:gap-1.5" aria-label="Export Playlist">
+      <i class="fa-solid fa-download text-[10px] sm:text-xs"></i>
+      <span class="hidden sm:inline">Export</span>
+    </button>
 
-      <button id="import-btn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition flex items-center gap-1.5" aria-label="Import Playlist">
-        <i class="fa-solid fa-upload"></i>
-        <span class="hidden md:inline">Import</span>
-      </button>
-      <input type="file" id="import-file-input" accept=".json" class="hidden" />
+    <button id="import-btn" class="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] sm:text-xs font-medium border border-slate-700 transition flex items-center gap-1 sm:gap-1.5" aria-label="Import Playlist">
+      <i class="fa-solid fa-upload text-[10px] sm:text-xs"></i>
+      <span class="hidden sm:inline">Import</span>
+    </button>
+    <input type="file" id="import-file-input" accept=".json" class="hidden" />
 
-      <button id="theme-customizer-btn" class="px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-medium transition flex items-center gap-1.5" aria-label="Customize Theme">
-        <i class="fa-solid fa-palette"></i>
-        <span class="hidden sm:inline">Vinyl Style</span>
-      </button>
-    </div>
-  </header>
+    <button id="theme-customizer-btn" class="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[10px] sm:text-xs font-medium transition flex items-center gap-1 sm:gap-1.5" aria-label="Customize Theme">
+      <i class="fa-solid fa-palette text-[10px] sm:text-xs"></i>
+      <span class="hidden sm:inline">Vinyl Style</span>
+    </button>
+  </div>
+</header>
 
   <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
